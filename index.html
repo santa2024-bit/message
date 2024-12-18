@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secret Key Validator</title>
+  <style>
+    body {
+      background-color: white;
+  font-family: 'Arial', sans-serif;
+  background-image: url('back.jpg');
+  background-size: 100% 100%;
+  text-align: center;
+    }
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 16px;
+    }
+    #message {
+      margin-top: 20px;
+      font-weight: bold;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>Enter the Secret Key</h1>
+  <input type="number" id="secretKey" placeholder="Enter secret number" />
+  <button onclick="validateKey()">Submit</button>
+  <div id="message"></div>
+
+  <script>
+    const secretKey = 144; 
+    const encryptedMessage = "Efbt ibzb\nJ xboufe up tfoe uif hjgu jo b tqfdjbm xbz.\nHjgu mpdbujpo: Dmbttjdp Esjolt - Kbsbnbob\nNfssz Disjtunbt - zpvs tfdsfu tboub";
+
+    // Function to validate the key
+    function validateKey() {
+      const userInput = parseInt(document.getElementById("secretKey").value);
+      const messageDiv = document.getElementById("message");
+
+      if (userInput === secretKey) {
+        const decryptedMessage = decryptMessage(encryptedMessage, 1); 
+        messageDiv.style.color = "white";
+        messageDiv.innerHTML = `Access Granted!<br>Your message is:<br><strong>${decryptedMessage.replace(/\n/g, '<br>')}</strong>`;
+      } else {
+        messageDiv.style.color = "white";
+        messageDiv.innerHTML = "Access Denied! Incorrect key.";
+      }
+    }
+
+    // Simple Caesar cipher decryption
+    function decryptMessage(message, shift) {
+      return message.split("").map(char => {
+        if (char.match(/[A-Za-z]/)) {
+          const base = char === char.toLowerCase() ? 97 : 65;
+          return String.fromCharCode(((char.charCodeAt(0) - base - shift + 26) % 26) + base);
+        }
+        return char;
+      }).join("");
+    }
+  </script>
+</body>
+</html>
